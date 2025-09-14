@@ -1,0 +1,54 @@
+/* frontend/src/App.css */
+:root {
+  --bg: #f6f7fb;
+  --card: #fff;
+  --text: #222;
+  --muted: #666;
+  --accent: #007bff;
+}
+
+.app {
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+
+.app.dark {
+  --bg: #0f1220;
+  --card: #141826;
+  --text: #e6eef8;
+  --muted: #9aa4b2;
+}
+
+.header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 2rem;
+  background: var(--card);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.main {
+  max-width:900px;
+  margin:2rem auto;
+  padding:1rem;
+  background: var(--card);
+  border-radius:8px;
+}
+
+textarea { width: 100%; padding:10px; font-size:16px; border-radius:6px; border:1px solid #ddd; background:transparent; color:var(--text); }
+
+.controls { margin-top:10px; display:flex; gap:10px; }
+button { padding:8px 14px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer; }
+button[disabled] { opacity:0.6; cursor:not-allowed; }
+
+.result { margin-top:16px; padding:12px; border-radius:6px; background: rgba(0,0,0,0.03); }
+.history { margin-top:20px; }
+.small { color:var(--muted); font-size:12px; }
+
+.logo {
+  height: 100px;  /* Adjust height */
+  width: 300px;   /* Maintains aspect ratio */
+}

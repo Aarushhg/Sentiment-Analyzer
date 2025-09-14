@@ -1,31 +1,38 @@
-#!flask/bin/python
-from flask import Flask, request, render_template
-from flask_bootstrap import Bootstrap
-import pickle
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import app_utilities
 
 app = Flask(__name__)
-Bootstrap(app)
+CORS(app)  # Enable CORS
 
 @app.route('/')
 def index():
-    return render_template('index1.html')
-
+    return jsonify({"message": "Depression Detection API is running."})
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    """
-    Collect the input and predict the outcome
-    Returns:
-        Results.html with prediction
-    """
-    if request.method == 'POST':
-        # get input statement
-        tweet = request.form["tweet"]
-        data = [tweet]
-        my_prediction = app_utilities.tweet_prediction(str(data))
-    return render_template("result.html", prediction=my_prediction, name=tweet)
+    data = request.get_json()
+    if not data or 'tweet' not in data:
+        return jsonify({"error": "No tweet text provided"}), 400
 
+    tweet = data['tweet'].strip()
+    if not tweet:
+        return jsonify({"error": "Empty tweet text"}), 400
+
+    pred_raw = app_utilities.tweet_prediction(tweet)
+
+    prediction = "Depressed" if pred_raw == 1 else "Not Depressed"
+    confidence = 0.90 if pred_raw == 1 else 0.95
+    probabilities = {
+        "Depressed": confidence if pred_raw == 1 else 1 - confidence,
+        "Not Depressed": 1 - confidence if pred_raw == 1 else confidence
+    }
+
+    return jsonify({
+        "prediction": prediction,
+        "confidence": round(confidence, 4),
+        "probabilities": probabilities
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)

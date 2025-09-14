@@ -27,10 +27,10 @@ def tweet_prediction(tweet):
     ## load English model of Spacy
     nlp = en_core_web_lg.load()
     ## word-embedding
-    test = pd.np.array([pd.np.array([token.vector for token in nlp(s)]).mean(axis=0) * pd.np.ones((300)) \
+    test = np.array([np.array([token.vector for token in nlp(s)]).mean(axis=0) * np.ones((300)) \
                         for s in clean_tweet])
     ## Load the model
-    SVM = "../twitter_depression_detection/models/model_svm1.pkl"
+    SVM = "../Sentiment Analyser/models/model_svm1.pkl"
     with open(SVM, 'rb') as file3:
         clf = pickle.load(file3)
 
